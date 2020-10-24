@@ -11,8 +11,9 @@
 #include <omp.h>
 #endif
 
-template <typename T> static void T_normalize_mi_ma_fast(char **args, npy_intp *dimensions,
-                                             npy_intp* steps, void* data){
+template <typename T> static void T_normalize_mi_ma_fast(char **args,
+                                                         npy_intp const *dimensions,
+                                                         npy_intp const *steps, void* data){
 
   npy_intp i;
   npy_intp n = dimensions[0];
