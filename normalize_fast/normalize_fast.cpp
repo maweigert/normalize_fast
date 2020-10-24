@@ -83,82 +83,6 @@ template <typename T> static void T_normalize_mi_ma_fast(char **args,
   }    
 }
 
-
-
-
-
-// static void uint8_normalize_mi_ma_fast(char **args, npy_intp *dimensions,
-//                         npy_intp* steps, void* data)
-// {
-
-//   npy_intp i;
-//   npy_intp n = dimensions[0];
-
-//   char *in_arr   = args[0];
-//   char *mi_arr   = args[1];
-//   char *ma_arr   = args[2];
-//   char *mi2_arr  = args[3];
-//   char *ma2_arr  = args[4];
-//   char *out_arr  = args[5];
-
-//   npy_intp in_step   = steps[0];
-//   npy_intp mi_step   = steps[1];
-//   npy_intp ma_step   = steps[2];
-//   npy_intp mi2_step  = steps[3];
-//   npy_intp ma2_step  = steps[4];
-//   npy_intp out_step  = steps[5];
-    
-//   uint8_t in, mi, ma, mi2, ma2;
-//   float out;
-
-//   if (mi_step == 0 && ma_step == 0 && mi2_step == 0 && ma2_step == 0) {
-
-      
-//     mi  = *(uint8_t *)mi_arr;
-//     ma  = *(uint8_t *)ma_arr;
-//     mi2 = *(uint8_t *)mi2_arr;
-//     ma2 = *(uint8_t *)ma2_arr;
-    
-// # pragma omp parallel for
-//     for (i = 0; i < n; i++) {
-
-//       in  = *(uint8_t *)in_arr;
-        
-//       out = ((float)(in-mi))/(ma-mi)*(ma2-mi2)+mi2;
-//       out = out <= mi2 ? mi2 : out >= ma2 ? ma2 : out;
-      
-//       *((uint8_t *)out_arr) = (uint8_t) in;
-
-//       in_arr += in_step;        
-//       out_arr += out_step;
-//     }
-//   }
-//   else{
-// # pragma omp parallel for
-//     for (i = 0; i < n; i++) {
-
-//       in  = *(uint8_t *)in_arr;
-//       mi  = *(uint8_t *)mi_arr;
-//       ma  = *(uint8_t *)ma_arr;
-//       mi2 = *(uint8_t *)mi2_arr;
-//       ma2 = *(uint8_t *)ma2_arr;
-        
-//       out = ((float)(in-mi))/(ma-mi)*(ma2-mi2)+mi2;
-//       out = out <= mi2 ? mi2 : out >= ma2 ? ma2 : out;
-      
-//       *((uint8_t *)out_arr) = (uint8_t) out;
-
-//       in_arr += in_step;        
-//       mi_arr += mi_step;        
-//       ma_arr += ma_step;        
-//       mi2_arr += mi2_step;        
-//       ma2_arr += ma2_step;        
-//       out_arr += out_step;
-              
-//     }
-//   }    
-// }
-
 #define NFUNCS 8
 
 static char types[6*NFUNCS] = {
@@ -189,8 +113,6 @@ PyUFuncGenericFunction funcs[NFUNCS] = {
   
   &(T_normalize_mi_ma_fast<float>),
   &(T_normalize_mi_ma_fast<double>)
-
-  // &uint8_normalize_mi_ma_fast
 };
 
 
