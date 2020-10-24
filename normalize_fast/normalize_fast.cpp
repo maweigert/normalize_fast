@@ -32,52 +32,50 @@ template <typename T> static void T_normalize_mi_ma_fast(char **args,
   npy_intp ma2_step  = steps[4];
   npy_intp out_step  = steps[5];
     
-  T in, mi, ma, mi2, ma2;
-  float out;
 
 
   if (mi_step == 0 && ma_step == 0 && mi2_step == 0 && ma2_step == 0) {
-    
+
+    T mi, ma, mi2, ma2;
+
     mi  = *(T *)mi_arr;
     ma  = *(T *)ma_arr;
     mi2 = *(T *)mi2_arr;
     ma2 = *(T *)ma2_arr;
            
-# pragma omp parallel for
+# pragma omp parallel for 
     for (i = 0; i < n; i++) {
 
-      in  = *(T *)in_arr;
-        
+      T in;
+      float out;
+      in  = *(T *)(&in_arr[i*in_step]);
+      
       out = ((float)in-mi)/(ma-mi)*(ma2-mi2)+mi2;
       out = out <= mi2 ? mi2 : out >= ma2 ? ma2 : out;
       
-      *((T *)out_arr) = (T) in;
+#pragma omp atomic write
+      *((T *)(&out_arr[i*out_step])) = (T) out;
 
-      in_arr += in_step;        
-      out_arr += out_step;
     }
   }
   else{
-# pragma omp parallel for
+# pragma omp parallel for 
     for (i = 0; i < n; i++) {
 
-      in  = *(T *)in_arr;
-      mi  = *(T *)mi_arr;
-      ma  = *(T *)ma_arr;
-      mi2 = *(T *)mi2_arr;
-      ma2 = *(T *)ma2_arr;
+      T in, mi, ma, mi2, ma2;
+      float out;
+      
+      in  = *(T *)(&in_arr[i*in_step]);
+      mi  = *(T *)(&mi_arr[i*mi_step]);
+      ma  = *(T *)(&ma_arr[i*ma_step]);
+      mi2 = *(T *)(&mi2_arr[i*mi2_step]);
+      ma2 = *(T *)(&ma2_arr[i*ma2_step]);
         
       out = ((float)in-mi)/(ma-mi)*(ma2-mi2)+mi2;
       out = out <= mi2 ? mi2 : out >= ma2 ? ma2 : out;
-      
-      *((T *)out_arr) = (T) out;
 
-      in_arr += in_step;        
-      mi_arr += mi_step;        
-      ma_arr += ma_step;        
-      mi2_arr += mi2_step;        
-      ma2_arr += ma2_step;        
-      out_arr += out_step;
+#pragma omp atomic write      
+      *((T *)out_arr) = (T) out;
               
     }
   }    
