@@ -54,4 +54,11 @@ setup(
             include_dirs=get_numpy_include_dirs(),
         ),
     ],
+    install_requires=[
+        'csbdeep>=0.6.0',
+        'numexpr',
+        'numba',
+        'pytest'
+    ],
+    
 )

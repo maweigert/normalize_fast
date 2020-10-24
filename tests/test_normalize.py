@@ -64,7 +64,7 @@ mi, ma, mi2, ma2 = 0, 100, 0,255
 print(f'normalize_mi_ma of array with shape {x.shape}')
     """
 
-    niter = 10
+    niter = 20
     
     t1 = timeit("y = mi2+(ma2-mi2)*normalize_mi_ma(x,mi,ma)", setup = setup, number=niter)
     t2 = timeit("y = normalize_mi_ma_inplace(x,mi,ma, mi2, ma2, mode= 'numpy')", setup = setup, number=niter)
