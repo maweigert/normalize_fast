@@ -1,6 +1,15 @@
 # normalize_fast
 
+## Install
+
+``` 
+git clone git@github.com:maweigert/normalize_fast.git
+CC=gcc-7 CXX=g++-7 pip install normalize_fast/
+```
+
+
 ## Examples 
+
 
 ```python 
 
