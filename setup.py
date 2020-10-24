@@ -55,10 +55,10 @@ setup(
         ),
     ],
     install_requires=[
-        'csbdeep>=0.6.0',
-        'numexpr',
-        'numba',
-        'pytest'
+        # 'csbdeep>=0.6.0',
+        # 'numexpr',
+        # 'numba',
+        # 'pytest'
     ],
     
 )

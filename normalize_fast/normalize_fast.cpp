@@ -11,7 +11,8 @@
 #include <omp.h>
 #endif
 
-template <typename T> static void T_normalize_mi_ma_fast(char **args,
+
+template <typename T> static void T_protoype_normalize_mi_ma_fast(char **args,
                                                          npy_intp const *dimensions,
                                                          npy_intp const *steps, void* data){
 
@@ -30,9 +31,7 @@ template <typename T> static void T_normalize_mi_ma_fast(char **args,
   npy_intp ma_step   = steps[2];
   npy_intp mi2_step  = steps[3];
   npy_intp ma2_step  = steps[4];
-  npy_intp out_step  = steps[5];
-    
-
+  npy_intp out_step  = steps[5];   
 
   if (mi_step == 0 && ma_step == 0 && mi2_step == 0 && ma2_step == 0) {
 
@@ -80,6 +79,23 @@ template <typename T> static void T_normalize_mi_ma_fast(char **args,
     }
   }    
 }
+
+// we need a non-const and a cont version as the signature was changed for recent numpy version
+template <typename T> static void T_normalize_mi_ma_fast(char **args,
+                                                         npy_intp  *dimensions,
+                                                         npy_intp  *steps, void* data){
+
+  npy_intp const *_dimensions = dimensions;
+  npy_intp const *_steps = steps;
+  return T_protoype_normalize_mi_ma_fast<T>(args, _dimensions, _steps, data);
+}
+
+template <typename T> static void T_normalize_mi_ma_fast(char **args,
+                                                         npy_intp const  *dimensions,
+                                                         npy_intp const *steps, void* data){
+  return T_protoype_normalize_mi_ma_fast<T>(args, dimensions, steps, data);
+}
+
 
 #define NFUNCS 8
 
