@@ -54,6 +54,12 @@ setup(
             include_dirs=get_numpy_include_dirs(),
         ),
         Extension(
+            'normalize_fast.normalize_fast2',
+            sources=['normalize_fast/normalize_fast2.cpp'],
+            extra_compile_args = ['-std=c++11'],
+            include_dirs=get_numpy_include_dirs(),
+        ),
+        Extension(
             'normalize_fast.percentile_fast',
             sources=['normalize_fast/percentile_fast.cpp'],
             extra_compile_args = ['-std=c++11'],
